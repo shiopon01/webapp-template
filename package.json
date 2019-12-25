@@ -1,0 +1,39 @@
+{
+  "name": "next-redux-login-sample",
+  "version": "1.0.0",
+  "author": "shiopon01",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export"
+  },
+  "browser": {
+    "child_process": false
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.8.1",
+    "@material-ui/styles": "^4.7.1",
+    "axios": "^0.19.0",
+    "next": "^9.1.6",
+    "notistack": "^0.9.7",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.1.3",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/next": "^9.0.0",
+    "@types/node": "^13.1.0",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@types/react-redux": "^7.1.5",
+    "@types/redux-logger": "^3.0.7",
+    "typescript": "^3.7.4",
+    "typesync": "^0.6.1"
+  }
+}

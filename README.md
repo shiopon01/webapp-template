@@ -1,3 +1,4 @@
 # next-redux-login-sample
 
-Hello.
+- UserID: admin
+- Password: password

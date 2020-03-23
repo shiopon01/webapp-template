@@ -11,7 +11,7 @@
     "dev": "nodemon",
     "start": "npm run build && node dist/app.js",
     "build": "npm run lint && tsc",
-    "test": "jest --forceExit",
+    "test": "jest",
     "lint": "tslint -c tslint.json '{src,test}/**/*.ts'"
   },
   "dependencies": {
@@ -30,16 +30,5 @@
     "tslint-microsoft-contrib": "^6.2.0",
     "typescript": "^3.8.3",
     "typesync": "^0.6.1"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.ts$": "ts-jest"
-    },
-    "testRegex": "/test/.*\\.test\\.(ts|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ],
-    "testEnvironment": "node"
   }
 }

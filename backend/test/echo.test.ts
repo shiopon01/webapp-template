@@ -11,17 +11,16 @@ beforeAll(() => {
  * integration test
  */
 describe("GET /echo", () => {
-  it('should return a string same as "say" query param', (): {} => {
+  it('should return a string same as "say" query param', async () => {
     const say: string = "Aa 1あ";
-
-    return request
+    await request
       .get("/echo")
       .query({ say: say })
-      .expect(200, say);
+      .expect(200);
   });
 
-  it('is bad request that "say" query param is not given', (): {} => {
-    return request.get("/echo").expect(400);
+  it('is bad request that "say" query param is not given', async () => {
+    await request.get("/echo").expect(400);
   });
 });
 

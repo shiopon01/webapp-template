@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "author": "shiopon01",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shiopon01/next-redux-login-sample.git"
+  },
   "scripts": {
     "dev": "next",
     "build": "next build",
     "start": "next start",
     "export": "next export"
-  },
-  "browser": {
-    "child_process": false
   },
   "dependencies": {
     "@material-ui/core": "^4.9.7",
@@ -35,5 +36,8 @@
     "@types/redux-logger": "^3.0.7",
     "typescript": "^3.8.3",
     "typesync": "^0.6.1"
+  },
+  "browser": {
+    "child_process": false
   }
 }

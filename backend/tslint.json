@@ -1,0 +1,9 @@
+{
+  "extends": ["tslint-microsoft-contrib/recommended"],
+  "rules": {
+    "no-console": [""],
+    "no-relative-imports": false,
+    "no-http-string": false,
+    "no-backbone-get-set-outside-model": false
+  }
+}

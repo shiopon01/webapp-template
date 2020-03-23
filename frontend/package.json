@@ -13,14 +13,14 @@
     "child_process": false
   },
   "dependencies": {
-    "@material-ui/core": "^4.8.1",
-    "@material-ui/styles": "^4.7.1",
-    "axios": "^0.19.0",
-    "next": "^9.1.6",
-    "notistack": "^0.9.7",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-redux": "^7.1.3",
+    "@material-ui/core": "^4.9.7",
+    "@material-ui/styles": "^4.9.6",
+    "axios": "^0.19.2",
+    "next": "^9.3.1",
+    "notistack": "^0.9.9",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
@@ -28,12 +28,12 @@
   },
   "devDependencies": {
     "@types/next": "^9.0.0",
-    "@types/node": "^13.1.0",
-    "@types/react": "^16.9.17",
-    "@types/react-dom": "^16.9.4",
-    "@types/react-redux": "^7.1.5",
+    "@types/node": "^13.9.3",
+    "@types/react": "^16.9.25",
+    "@types/react-dom": "^16.9.5",
+    "@types/react-redux": "^7.1.7",
     "@types/redux-logger": "^3.0.7",
-    "typescript": "^3.7.4",
+    "typescript": "^3.8.3",
     "typesync": "^0.6.1"
   }
 }

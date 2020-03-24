@@ -1,8 +1,8 @@
-import Router from "express-promise-router";
+import expressPromiseRouter from "express-promise-router";
 import * as echo from "./controllers/echo_controller";
 
-const router = Router();
+const routes = expressPromiseRouter();
 
-router.get("/echo", echo.index);
+routes.get("/echo", echo.index);
 
-export default router;
+export default routes;

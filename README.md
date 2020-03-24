@@ -1,4 +1,4 @@
-# next-redux-login-sample
+# webapp-template
 
 - UserID: admin
 - Password: password

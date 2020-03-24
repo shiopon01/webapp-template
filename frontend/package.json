@@ -1,11 +1,11 @@
 {
-  "name": "next-redux-login-sample",
+  "name": "webapp-template",
   "version": "1.0.0",
   "author": "shiopon01",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shiopon01/next-redux-login-sample.git"
+    "url": "git+https://github.com/shiopon01/webapp-template.git"
   },
   "scripts": {
     "dev": "next",

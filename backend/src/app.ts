@@ -1,12 +1,12 @@
 import * as express from "express";
-import * as echo from "./echo";
+import router from "./routes";
 
 export const app: express.Express = express();
 
 /**
  * routes
  */
-app.get("/echo", echo.echoApi);
+app.use("/", router);
 
 // NOTE: supertestを動かす際にapp.listenするとテストが終わらなくなる
 if (process.env.NODE_ENV !== "test") {

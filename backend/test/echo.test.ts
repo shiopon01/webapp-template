@@ -1,6 +1,6 @@
 import * as supertest from "supertest";
 import { app } from "../src/app";
-import { echo } from "../src/echo";
+import { echo } from "../src/controllers/echo_controller";
 
 let request: supertest.SuperTest<supertest.Test>;
 beforeAll(() => {

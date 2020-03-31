@@ -15,23 +15,21 @@
     "lint": "tslint -c tslint.json '{src,test}/**/*.ts'"
   },
   "dependencies": {
-    "connect-redis": "^4.0.4",
     "express": "^4.17.1",
     "express-promise-router": "^3.0.3",
-    "express-session": "^1.17.0",
     "passport": "^0.4.1",
+    "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "redis": "^3.0.2"
   },
   "devDependencies": {
-    "@types/connect-redis": "^0.0.13",
     "@types/express": "^4.17.3",
-    "@types/express-session": "^1.17.0",
     "@types/jest": "^25.1.4",
+    "@types/node": "^13.9.5",
     "@types/passport": "^0.4.7",
+    "@types/passport-http-bearer": "^1.0.34",
     "@types/passport-local": "^1.0.33",
     "@types/redis": "^2.8.16",
-    "@types/node": "^13.9.5",
     "@types/supertest": "^2.0.8",
     "jest": "^25.1.0",
     "nodemon": "^2.0.2",

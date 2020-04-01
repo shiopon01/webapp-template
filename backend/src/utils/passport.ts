@@ -1,7 +1,8 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as BearerStrategy } from "passport-http-bearer";
-// import redis from "./redis";
+import redis from "redis";
+import client from "../configs/redis";
 import genToken from "./genToken";
 
 const createError = require("http-errors");
@@ -17,20 +18,25 @@ passport.use(
   new LocalStrategy(localOption, (username, password, done) => {
     // TODO: DBを使った認証
     if (password === "password") {
-      const token = genToken();
+      const userId = 1;
 
-      // TODO: トークンを生成してRedisに保存
-      // redis
-      //   .multi()
-      //   .set("key", "val")
-      //   .expire("key", 60)
-      //   .exec((err, replies) => {
-      //     replies.forEach((item, i) => {
-      //       console.log(`result: ${i}`);
-      //       console.log(item);
-      //     });
-      //   });
-      // redis.quit()
+      const accessToken = genToken(350);
+      const refreshToken = genToken(350);
+
+      const redisClient = redis.createClient(client);
+      const akey = `user:${userId}:access:${accessToken.slice(0, 10)}`;
+      const rkey = `user:${userId}:refresh:${refreshToken.slice(0, 10)}`;
+
+      redisClient
+        .multi()
+        .set(akey, accessToken)
+        .expire(akey, 86400)
+        .set(rkey, refreshToken)
+        .expire(rkey, 2592000)
+        .exec((err, replies) => {
+          // console.log(replies);
+        });
+      redisClient.quit();
 
       done(null, { username });
     } else {

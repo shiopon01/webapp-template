@@ -7,15 +7,6 @@ export const app: express.Express = express();
 
 app.use(bodyParser.json());
 
-const redis = require("redis");
-const redisClient = redis.createClient({
-  host: "localhost",
-  port: 6379,
-  prefix: "sid:"
-});
-redisClient.unref();
-redisClient.on("error", console.log);
-
 // Passport
 app.use(passportInitialize);
 

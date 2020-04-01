@@ -1,5 +1,6 @@
 import express from "express";
 import passport from "passport";
+// import redis from "redis";
 
 export const login = (req: express.Request, res: express.Response, next: any): void => {
   passport.authenticate("local", { session: false }, async (err: any, user: any, info: any) => {

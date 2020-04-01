@@ -15,9 +15,12 @@
     "lint": "tslint -c tslint.json '{src,test}/**/*.ts'"
   },
   "dependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/ioredis": "^4.14.9",
     "bcrypt": "^4.0.1",
     "express": "^4.17.1",
     "express-promise-router": "^3.0.3",
+    "ioredis": "^4.16.1",
     "passport": "^0.4.1",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",

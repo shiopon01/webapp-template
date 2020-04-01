@@ -1,7 +1,7 @@
-const client = {
+const options = {
   host: "localhost",
   port: 6379,
-  prefix: "sid:"
+  prefix: "webapp:"
 };
 
-export default client;
+export default options;

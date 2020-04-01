@@ -5,9 +5,10 @@ import { passportInitialize } from "./utils/passport";
 
 export const app: express.Express = express();
 
+/**
+ * settings
+ */
 app.use(bodyParser.json());
-
-// Passport
 app.use(passportInitialize);
 
 /**
@@ -15,14 +16,15 @@ app.use(passportInitialize);
  */
 app.use("/", routes);
 
+/**
+ * error handlers
+ */
 const createError = require("http-errors");
 
-// catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
 });
 
-// error handler
 app.use((err: any, req: any, res: any, _next: any) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
@@ -31,7 +33,11 @@ app.use((err: any, req: any, res: any, _next: any) => {
   res.status(err.status || 500).json({ error: err });
 });
 
-// NOTE: supertestを動かす際にapp.listenするとテストが終わらなくなる
+/**
+ * listen
+ *
+ * // NOTE: supertestを動かす際にapp.listenするとテストが終わらなくなる
+ */
 if (process.env.NODE_ENV !== "test") {
   const port = process.env.PORT ? process.env.PORT : 3001;
   app.listen(port, () => {

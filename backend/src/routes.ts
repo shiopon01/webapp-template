@@ -1,56 +1,150 @@
-import expressPromiseRouter from "express-promise-router";
-import passport from "passport";
-import * as auth from "./controllers/auth_controller";
-import * as echo from "./controllers/echo_controller";
+/* tslint:disable */
+/* eslint-disable */
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { UsersController } from './controllers/user.controller';
+import * as express from 'express';
 
-// Passportのlocal認証を行うミドルウェア。Passportに帰依するエラーはHTTPレスポンスを返し、通常のエラーはnext(err)
-// NOTE: username, passwordどちらかが不足している場合にStrategyが勝手に返す401 Unauthorizedをキャッチ
-const local = (req: any, res: any, next: any): void => {
-  passport.authenticate("local", { session: false }, async (err: any, user: any, _info: any) => {
-    if (err) {
-      if (err.status === 401) {
-        // 認証情報が違う理由で不正な場合
-        return res.status(err.status).json({ message: "invalid token" });
-      }
-      return next(err);
-    }
-    if (!user) {
-      // username, passwordどちらかが不足している場合
-      return res.status(400).json({ message: "username and password required" });
-    }
-    req.user = user;
-    next();
-  })(req, res, next);
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+const models: TsoaRoute.Models = {
+  "User": {
+    "dataType": "refObject",
+    "properties": {
+      "id": { "dataType": "double", "required": true },
+      "name": { "dataType": "string", "required": true },
+    },
+    "additionalProperties": true,
+  },
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  "RequestBody": {
+    "dataType": "refObject",
+    "properties": {
+      "name": { "dataType": "string", "required": true },
+    },
+    "additionalProperties": true,
+  },
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
+const validationService = new ValidationService(models);
 
-// passportのbearer認証を行うミドルウェア。Passportに帰依するエラーはHTTPレスポンスを返し、通常のエラーはnext(err)
-// NOTE: bearerが不足している場合にStrategyが勝手に返す401 Unauthorizedをキャッチ
-// NOTE: https://qiita.com/uasi/items/cfb60588daa18c2ec6f5
-const bearer = (req: any, res: any, next: any): void => {
-  passport.authenticate("bearer", { session: false }, async (err: any, user: any, _info: any) => {
-    if (err) {
-      if (err.status === 401) {
-        // トークンが失効や破損などの理由で不正な場合
-        res.set("www-authenticate", 'Bearer error="invalid_token"');
-        return res.status(err.status).json({ message: "invalid token" });
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+export function RegisterRoutes(app: express.Express) {
+  // ###########################################################################################################
+  //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
+  //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
+  // ###########################################################################################################
+  app.get('/users/get/:id',
+    function(request: any, response: any, next: any) {
+      const args = {
+        id: { "in": "path", "name": "id", "required": true, "dataType": "double" },
+      };
+
+      // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+      let validatedArgs: any[] = [];
+      try {
+        validatedArgs = getValidatedArgs(args, request);
+      } catch (err) {
+        return next(err);
       }
-      return next(err);
+
+      const controller = new UsersController();
+
+
+      const promise = controller.getUser.apply(controller, validatedArgs as any);
+      promiseHandler(controller, promise, response, next);
+    });
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  app.post('/users/create',
+    function(request: any, response: any, next: any) {
+      const args = {
+        requestBody: { "in": "body", "name": "requestBody", "required": true, "ref": "RequestBody" },
+      };
+
+      // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+      let validatedArgs: any[] = [];
+      try {
+        validatedArgs = getValidatedArgs(args, request);
+      } catch (err) {
+        return next(err);
+      }
+
+      const controller = new UsersController();
+
+
+      const promise = controller.createUser.apply(controller, validatedArgs as any);
+      promiseHandler(controller, promise, response, next);
+    });
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+  function isController(object: any): object is Controller {
+    return 'getHeaders' in object && 'getStatus' in object && 'setStatus' in object;
+  }
+
+  function promiseHandler(controllerObj: any, promise: any, response: any, next: any) {
+    return Promise.resolve(promise)
+      .then((data: any) => {
+        let statusCode;
+        if (isController(controllerObj)) {
+          const headers = controllerObj.getHeaders();
+          Object.keys(headers).forEach((name: string) => {
+            response.set(name, headers[name]);
+          });
+
+          statusCode = controllerObj.getStatus();
+        }
+
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+        if (data && typeof data.pipe === 'function' && data.readable && typeof data._read === 'function') {
+          data.pipe(response);
+        } else if (data || data === false) { // === false allows boolean result
+          response.status(statusCode || 200).json(data);
+        } else {
+          response.status(statusCode || 204).end();
+        }
+      })
+      .catch((error: any) => next(error));
+  }
+
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+  function getValidatedArgs(args: any, request: any): any[] {
+    const fieldErrors: FieldErrors = {};
+    const values = Object.keys(args).map((key) => {
+      const name = args[key].name;
+      switch (args[key].in) {
+        case 'request':
+          return request;
+        case 'query':
+          return validationService.ValidateParam(args[key], request.query[name], name, fieldErrors, undefined, { "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
+        case 'path':
+          return validationService.ValidateParam(args[key], request.params[name], name, fieldErrors, undefined, { "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
+        case 'header':
+          return validationService.ValidateParam(args[key], request.header(name), name, fieldErrors, undefined, { "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
+        case 'body':
+          return validationService.ValidateParam(args[key], request.body, name, fieldErrors, name + '.', { "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
+        case 'body-prop':
+          return validationService.ValidateParam(args[key], request.body[name], name, fieldErrors, 'body.', { "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
+      }
+    });
+
+    if (Object.keys(fieldErrors).length > 0) {
+      throw new ValidateError(fieldErrors, '');
     }
-    if (!user) {
-      // bearerが不足している場合
-      res.set("www-authenticate", 'Bearer realm="token_required"');
-      return res.status(401).json({ message: "token required" });
-    }
-    req.user = user;
-    next();
-  })(req, res, next);
-};
+    return values;
+  }
 
-const routes = expressPromiseRouter();
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+}
 
-routes.post("/login", local, auth.login);
-routes.get("/logout", bearer, auth.logout);
-
-routes.get("/echo", echo.index);
-
-export default routes;
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

@@ -1,16 +1,26 @@
 {
+  "compileOnSave": false, // tsconfig.json 保存時に全てのファイルをコンパイル
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es6",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "outDir": "dist",
-    "baseUrl": ".",
+    "baseUrl": "./", // 非相対モジュール名を解決するためのベースディレクト
+    "declaration": false, // 対応する .d.ts ファイルを生成
+    "emitDecoratorMetadata": true, // ソース内の装飾された宣言のデザインタイプメタデータを出力
+    "esModuleInterop": true, // export default のインポートを許可
+    "experimentalDecorators": true, // ESデコレータの実験的サポートを有効
+    "forceConsistentCasingInFileNames": true, // 大文字と小文字が一致しない同じファイルへの参照を禁止
+    "incremental": true, // 差分をコンパイル
+    "lib": ["es2018", "dom"], // コンパイルに含めるライブラリファイルのリスト
+    "module": "commonjs", // モジュールコード生成を指定
+    "moduleResolution": "node", // モジュールの解決方法を決定
+    "noUnusedLocals": true, // 未使用のローカルのエラー
+    "noUnusedParameters": true, // 未使用のパラメータをエラー
+    "outDir": "./dist/out-tsc", // 入力ファイルのルートディレクトリ
     "paths": {
-      "*": ["node_modules/*", "src/types/*"]
-    }
-  },
-  "include": ["src/**/*"]
+      // モジュール名のパスマッピングエントリのリスト
+    },
+    "resolveJsonModule": true, // .json 拡張機能でインポートされたモジュールを含める
+    "sourceMap": true, // 対応する .map ファイルを生成
+    "strict": true, // すべての厳密な型チェックオプションを有効
+    "target": "es5", // ECMAScript のターゲットバージョンを指定
+    "typeRoots": [] // タイプ定義を含めるフォルダーのリスト
+  }
 }

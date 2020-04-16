@@ -1,7 +1,9 @@
-import express from "express";
-import bodyParser from "body-parser";
-import routes from "./routes";
-import { passportInitialize } from "./utils/passport";
+import express from 'express';
+import bodyParser from 'body-parser';
+import { RegisterRoutes } from './routes';
+import { passportInitialize } from './utils/passport';
+import swaggerUI from 'swagger-ui-express';
+import swaggerDocument from '../docs/swagger.json';
 
 export const app: express.Express = express();
 
@@ -14,21 +16,23 @@ app.use(passportInitialize);
 /**
  * routes
  */
-app.use("/", routes);
+// app.use('/', routes);
+RegisterRoutes(app);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 /**
  * error handlers
  */
-const createError = require("http-errors");
+const createError = require('http-errors');
 
-app.use((req, res, next) => {
+app.use((_req, _res, next) => {
   next(createError(404));
 });
 
 app.use((err: any, req: any, res: any, _next: any) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
   // render the error page
   res.status(err.status || 500).json({ error: err });
 });
@@ -36,9 +40,9 @@ app.use((err: any, req: any, res: any, _next: any) => {
 /**
  * listen
  *
- * // NOTE: supertestを動かす際にapp.listenするとテストが終わらなくなる
+ * NOTE: supertestを動かす際にapp.listenするとテストが終わらなくなるためtestは除く
  */
-if (process.env.NODE_ENV !== "test") {
+if (process.env.NODE_ENV !== 'test') {
   const port = process.env.PORT ? process.env.PORT : 3001;
   app.listen(port, () => {
     console.log(`env : ${process.env.NODE_ENV}`);

@@ -1,7 +1,7 @@
 const options = {
-  host: "localhost",
+  host: 'localhost',
   port: 6379,
-  prefix: "webapp:"
+  prefix: 'webapp:',
 };
 
 export default options;

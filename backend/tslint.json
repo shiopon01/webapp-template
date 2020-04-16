@@ -1,11 +1,14 @@
 {
-  "extends": ["tslint-microsoft-contrib/recommended"],
+  "extends": ["tslint-microsoft-contrib/recommended", "tslint-config-prettier"],
   "rules": {
-    "no-console": [""],
-    "no-cookies": false,
-    "no-relative-imports": false,
-    "no-http-string": false,
+    "export-name": false,
+    "import-name": false,
     "no-backbone-get-set-outside-model": false,
-    "no-suspicious-comment": false
+    "no-console": false,
+    "no-cookies": false,
+    "no-http-string": false,
+    "no-relative-imports": false,
+    "no-suspicious-comment": false,
+    "no-unnecessary-semicolons": false
   }
 }

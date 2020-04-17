@@ -1,9 +1,12 @@
-import express from 'express';
+import 'reflect-metadata';
+
 import bodyParser from 'body-parser';
+import express from 'express';
+import swaggerUI from 'swagger-ui-express';
+
+import swaggerDocument from '../docs/swagger.json';
 import { RegisterRoutes } from './routes';
 import { passportInitialize } from './utils/passport';
-import swaggerUI from 'swagger-ui-express';
-import swaggerDocument from '../docs/swagger.json';
 
 export const app: express.Express = express();
 

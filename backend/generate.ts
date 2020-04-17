@@ -21,6 +21,9 @@ import {
     basePath: '/',
     entryFile: './src/app.ts',
     routesDir: './src',
+    middleware: 'express',
+    authenticationModule: './src/middleware/sample.ts',
+    iocModule: './src/ioc',
   };
   // 自動生成の実行
   await generateSwaggerSpec(swaggerOptions, routeOptions);

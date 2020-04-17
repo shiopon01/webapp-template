@@ -66,7 +66,11 @@
 						"description": "Ok"
 					}
 				},
-				"security": [],
+				"security": [
+					{
+						"api_token": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",

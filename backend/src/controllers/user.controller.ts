@@ -14,8 +14,8 @@ export class UsersController extends Controller {
   }
 
   // IDをPATHに含めたGETなAPIを定義
-  @Get('/get/{id}')
-  @Security('api_token')
+  @Get('/{id}')
+  @Security('login')
   public getUser(id: number, @Request() request: express.Request): User | {} {
     console.log(request.user);
 

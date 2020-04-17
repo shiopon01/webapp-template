@@ -4,20 +4,48 @@
 import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
 import { iocContainer } from './ioc';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { AuthController } from './controllers/auth.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { UsersController } from './controllers/user.controller';
-import { expressAuthentication } from './middleware/sample';
+import { expressAuthentication } from './authentication';
 import * as express from 'express';
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+  "LoginResponse": {
+    "dataType": "refObject",
+    "properties": {
+      "message": { "dataType": "string", "required": true },
+      "user": { "dataType": "any", "required": true },
+    },
+    "additionalProperties": false,
+  },
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  "Login": {
+    "dataType": "refObject",
+    "properties": {
+      "name": { "dataType": "string", "required": true },
+    },
+    "additionalProperties": false,
+  },
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  "ErrorResponseModel": {
+    "dataType": "refObject",
+    "properties": {
+      "status": { "dataType": "double", "required": true },
+      "message": { "dataType": "string", "required": true },
+    },
+    "additionalProperties": false,
+  },
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   "User": {
     "dataType": "refObject",
     "properties": {
       "id": { "dataType": "double", "required": true },
       "name": { "dataType": "string", "required": true },
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   "RequestBody": {
@@ -25,7 +53,7 @@ const models: TsoaRoute.Models = {
     "properties": {
       "name": { "dataType": "string", "required": true },
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -38,8 +66,60 @@ export function RegisterRoutes(app: express.Express) {
   //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
   //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
   // ###########################################################################################################
-  app.get('/users/get/:id',
-    authenticateMiddleware([{ "api_token": [] }]),
+  app.post('/login',
+    authenticateMiddleware([{ "login": [] }]),
+    function(request: any, response: any, next: any) {
+      const args = {
+        _requestBody: { "in": "body", "name": "_requestBody", "required": true, "ref": "Login" },
+        request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+      };
+
+      // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+      let validatedArgs: any[] = [];
+      try {
+        validatedArgs = getValidatedArgs(args, request);
+      } catch (err) {
+        return next(err);
+      }
+
+      const controller: any = iocContainer.get<AuthController>(AuthController);
+      if (typeof controller['setStatus'] === 'function') {
+        controller.setStatus(undefined);
+      }
+
+
+      const promise = controller.login.apply(controller, validatedArgs as any);
+      promiseHandler(controller, promise, response, next);
+    });
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  app.get('/logout',
+    function(request: any, response: any, next: any) {
+      const args = {
+        request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+      };
+
+      // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+      let validatedArgs: any[] = [];
+      try {
+        validatedArgs = getValidatedArgs(args, request);
+      } catch (err) {
+        return next(err);
+      }
+
+      const controller: any = iocContainer.get<AuthController>(AuthController);
+      if (typeof controller['setStatus'] === 'function') {
+        controller.setStatus(undefined);
+      }
+
+
+      const promise = controller.logout.apply(controller, validatedArgs as any);
+      promiseHandler(controller, promise, response, next);
+    });
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  app.get('/users/:id',
+    authenticateMiddleware([{ "login": [] }]),
     function(request: any, response: any, next: any) {
       const args = {
         id: { "in": "path", "name": "id", "required": true, "dataType": "double" },
@@ -183,15 +263,15 @@ export function RegisterRoutes(app: express.Express) {
         case 'request':
           return request;
         case 'query':
-          return validationService.ValidateParam(args[key], request.query[name], name, fieldErrors, undefined, { "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
+          return validationService.ValidateParam(args[key], request.query[name], name, fieldErrors, undefined, { "noImplicitAdditionalProperties": "silently-remove-extras", "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
         case 'path':
-          return validationService.ValidateParam(args[key], request.params[name], name, fieldErrors, undefined, { "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
+          return validationService.ValidateParam(args[key], request.params[name], name, fieldErrors, undefined, { "noImplicitAdditionalProperties": "silently-remove-extras", "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
         case 'header':
-          return validationService.ValidateParam(args[key], request.header(name), name, fieldErrors, undefined, { "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
+          return validationService.ValidateParam(args[key], request.header(name), name, fieldErrors, undefined, { "noImplicitAdditionalProperties": "silently-remove-extras", "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
         case 'body':
-          return validationService.ValidateParam(args[key], request.body, name, fieldErrors, name + '.', { "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
+          return validationService.ValidateParam(args[key], request.body, name, fieldErrors, name + '.', { "noImplicitAdditionalProperties": "silently-remove-extras", "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
         case 'body-prop':
-          return validationService.ValidateParam(args[key], request.body[name], name, fieldErrors, 'body.', { "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
+          return validationService.ValidateParam(args[key], request.body[name], name, fieldErrors, 'body.', { "noImplicitAdditionalProperties": "silently-remove-extras", "controllerPathGlobs": ["./src/controllers/*.controller.ts"], "specVersion": 3 });
       }
     });
 

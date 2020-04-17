@@ -15,6 +15,7 @@ import {
     controllerPathGlobs: ['./src/controllers/*.controller.ts'],
     host: 'localhost:3001',
     schemes: ['http'],
+    noImplicitAdditionalProperties: 'silently-remove-extras',
   };
   // 自動生成する routes.ts の設定
   const routeOptions: RoutesConfig = {
@@ -22,7 +23,7 @@ import {
     entryFile: './src/app.ts',
     routesDir: './src',
     middleware: 'express',
-    authenticationModule: './src/middleware/sample.ts',
+    authenticationModule: './src/authentication.ts',
     iocModule: './src/ioc',
   };
   // 自動生成の実行

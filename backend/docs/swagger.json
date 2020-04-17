@@ -6,6 +6,52 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"LoginResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"user": {
+						"additionalProperties": true,
+						"type": "object"
+					}
+				},
+				"required": [
+					"message",
+					"user"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Login": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ErrorResponseModel": {
+				"properties": {
+					"status": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"User": {
 				"properties": {
 					"id": {
@@ -21,7 +67,7 @@
 					"name"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			},
 			"RequestBody": {
 				"properties": {
@@ -33,7 +79,7 @@
 					"name"
 				],
 				"type": "object",
-				"additionalProperties": true
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -43,7 +89,100 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/users/get/{id}": {
+		"/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LoginResponse"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"description": "ユーザー名とパスワードを渡してログインを行います。",
+				"summary": "ログイン機能",
+				"tags": [
+					"auth"
+				],
+				"security": [
+					{
+						"login": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Login"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/logout": {
+			"get": {
+				"operationId": "Logout",
+				"responses": {
+					"204": {
+						"content": {
+							"application/json": {}
+						},
+						"description": "No content"
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponseModel"
+								}
+							}
+						},
+						"description": "Bad Request"
+					},
+					"401": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponseModel"
+								}
+							}
+						},
+						"description": "Unauthorized"
+					},
+					"default": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponseModel"
+								},
+								"examples": {
+									"example": {
+										"value": {
+											"status": 500,
+											"message": "Something went wrong!"
+										}
+									}
+								}
+							}
+						},
+						"description": "Unexpected error"
+					}
+				},
+				"tags": [
+					"auth"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/users/{id}": {
 			"get": {
 				"operationId": "GetUser",
 				"responses": {
@@ -68,7 +207,7 @@
 				},
 				"security": [
 					{
-						"api_token": []
+						"login": []
 					}
 				],
 				"parameters": [

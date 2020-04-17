@@ -4,7 +4,7 @@ import { Strategy as BearerStrategy } from 'passport-http-bearer';
 import IORedis from 'ioredis';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
-import options from '../configs/redis';
+import options from '../redis';
 import genToken from './genToken';
 
 const createError = require('http-errors');

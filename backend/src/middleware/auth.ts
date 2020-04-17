@@ -1,7 +1,7 @@
 import passport from 'passport';
-import expressPromiseRouter from 'express-promise-router';
-import * as auth from '../controllers/auth_controller';
-import * as echo from '../controllers/echo_controller';
+// import expressPromiseRouter from 'express-promise-router';
+// import * as auth from './controllers/auth_controller';
+// import * as echo from './controllers/echo_controller';
 
 const local = (req: any, res: any, next: any): void => {
   passport.authenticate(

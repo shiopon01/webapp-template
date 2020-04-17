@@ -1,5 +1,5 @@
 import IORedis from 'ioredis';
-import options from '../configs/redis';
+import options from '../redis';
 
 export const login = (req: any, res: any) => {
   // ミドルウェアでログイン処理までしているため、ログイン成功済みのリクエストだけたどり着く

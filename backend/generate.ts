@@ -23,7 +23,7 @@ import {
     entryFile: './src/app.ts',
     routesDir: './src',
     middleware: 'express',
-    authenticationModule: './src/authentication.ts',
+    authenticationModule: './src/auth.ts',
     iocModule: './src/ioc',
   };
   // 自動生成の実行

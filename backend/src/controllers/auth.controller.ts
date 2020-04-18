@@ -8,17 +8,16 @@ import {
   Route,
   Security,
   Tags,
-  Response,
 } from 'tsoa';
 
 import { inject, ProvideSingleton } from '../ioc';
-import { TestService } from '../services/test.service';
+import { AuthService } from '../services/auth.service';
 
 @Tags('auth')
 @Route('/')
 @ProvideSingleton(AuthController)
 export class AuthController extends Controller {
-  constructor(@inject(TestService) private test: TestService) {
+  constructor(@inject(AuthService) private auth: AuthService) {
     super();
   }
 
@@ -33,35 +32,56 @@ export class AuthController extends Controller {
    */
   @Post('login')
   @Security('login')
+  // @Response<ErrorResponseModel>('400', 'Bad Request', {
+  //   status: 400,
+  //   message: 'Bad Request',
+  // })
   public login(
     @Body() _requestBody: Login,
     @Request() request: express.Request
-  ): LoginResponse {
-    // ミドルウェアでログイン処理までしているため必ずsuccessを返す
+  ): any {
+    // ミドルウェアでログイン処理までしているので必ずsuccess
     return { message: 'success', user: request.user };
   }
 
-  @Response<ErrorResponseModel>('400', 'Bad Request')
-  @Response<ErrorResponseModel>('401', 'Unauthorized')
-  @Response<ErrorResponseModel>('default', 'Unexpected error', {
-    status: 500,
-    message: 'Something went wrong!',
-  })
+  /**
+   * ログアウトを行います。
+   *
+   * @summary ログアウト機能
+   * @param {express.Request} request
+   * @returns {void}
+   * @memberof AuthController
+   */
   @Get('logout')
-  public logout(@Request() request: express.Request): void {
-    console.log(request.user);
-    this.test.sample();
-    return;
+  @Security('auth')
+  public logout(@Request() request: UserRequest): LogoutResponse {
+    try {
+      console.log(request.user);
+      this.auth.logout(request.user.accessToken20);
+    } catch (err) {
+      console.log(err);
+    }
+
+    return { message: 'success' };
   }
 }
 
+export interface UserRequest extends express.Request {
+  user: any;
+}
+
 export interface Login {
-  name: string;
+  username: string;
+  password: string;
 }
 
 export interface LoginResponse {
   message: string;
   user: any;
+}
+
+export interface LogoutResponse {
+  message: string;
 }
 
 export interface ErrorResponseModel {

@@ -6,47 +6,29 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"LoginResponse": {
-				"properties": {
-					"message": {
-						"type": "string"
-					},
-					"user": {
-						"additionalProperties": true,
-						"type": "object"
-					}
-				},
-				"required": [
-					"message",
-					"user"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"Login": {
 				"properties": {
-					"name": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"name"
+					"username",
+					"password"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ErrorResponseModel": {
+			"LogoutResponse": {
 				"properties": {
-					"status": {
-						"type": "number",
-						"format": "double"
-					},
 					"message": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"status",
 					"message"
 				],
 				"type": "object",
@@ -97,7 +79,8 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/LoginResponse"
+									"additionalProperties": true,
+									"type": "object"
 								}
 							}
 						},
@@ -130,55 +113,27 @@
 			"get": {
 				"operationId": "Logout",
 				"responses": {
-					"204": {
-						"content": {
-							"application/json": {}
-						},
-						"description": "No content"
-					},
-					"400": {
+					"200": {
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ErrorResponseModel"
+									"$ref": "#/components/schemas/LogoutResponse"
 								}
 							}
 						},
-						"description": "Bad Request"
-					},
-					"401": {
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponseModel"
-								}
-							}
-						},
-						"description": "Unauthorized"
-					},
-					"default": {
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponseModel"
-								},
-								"examples": {
-									"example": {
-										"value": {
-											"status": 500,
-											"message": "Something went wrong!"
-										}
-									}
-								}
-							}
-						},
-						"description": "Unexpected error"
+						"description": "Ok"
 					}
 				},
+				"description": "ログアウトを行います。",
+				"summary": "ログアウト機能",
 				"tags": [
 					"auth"
 				],
-				"security": [],
+				"security": [
+					{
+						"auth": []
+					}
+				],
 				"parameters": []
 			}
 		},

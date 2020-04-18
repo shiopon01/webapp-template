@@ -7,33 +7,24 @@ import { iocContainer } from './ioc';
 import { AuthController } from './controllers/auth.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { UsersController } from './controllers/user.controller';
-import { expressAuthentication } from './authentication';
+import { expressAuthentication } from './auth';
 import * as express from 'express';
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-  "LoginResponse": {
-    "dataType": "refObject",
-    "properties": {
-      "message": { "dataType": "string", "required": true },
-      "user": { "dataType": "any", "required": true },
-    },
-    "additionalProperties": false,
-  },
-  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   "Login": {
     "dataType": "refObject",
     "properties": {
-      "name": { "dataType": "string", "required": true },
+      "username": { "dataType": "string", "required": true },
+      "password": { "dataType": "string", "required": true },
     },
     "additionalProperties": false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-  "ErrorResponseModel": {
+  "LogoutResponse": {
     "dataType": "refObject",
     "properties": {
-      "status": { "dataType": "double", "required": true },
       "message": { "dataType": "string", "required": true },
     },
     "additionalProperties": false,
@@ -94,6 +85,7 @@ export function RegisterRoutes(app: express.Express) {
     });
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   app.get('/logout',
+    authenticateMiddleware([{ "auth": [] }]),
     function(request: any, response: any, next: any) {
       const args = {
         request: { "in": "request", "name": "request", "required": true, "dataType": "object" },

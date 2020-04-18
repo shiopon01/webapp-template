@@ -17,7 +17,7 @@ const localOption = {
 
 // ログイン処理
 passport.use(
-  new LocalStrategy(localOption, (_username, password, done) => {
+  new LocalStrategy(localOption, (username, password, done) => {
     // TODO: DBからユーザー取得
     const user = {
       id: 1,
@@ -25,7 +25,10 @@ passport.use(
       password: bcrypt.hashSync('password', 10),
     };
 
-    if (bcrypt.compareSync(password, user.password)) {
+    if (
+      username === user.username &&
+      bcrypt.compareSync(password, user.password)
+    ) {
       const accessToken = genToken(350);
       const akey = `token:access:${accessToken.slice(0, 20)}`;
 
@@ -37,7 +40,7 @@ passport.use(
         .exec();
       redis.quit();
 
-      done(null, { user });
+      done(null, user);
     } else {
       done(createError(401, 'login failed'));
     }

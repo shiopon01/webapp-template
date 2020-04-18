@@ -9,7 +9,7 @@ export class AuthService {
   constructor() {}
 
   async login(request: express.Request): Promise<any> {
-    let result;
+    let result: any;
     try {
       result = await new Promise((resolve, reject) => {
         passport.authenticate(
@@ -21,20 +21,26 @@ export class AuthService {
                 // 認証情報が違う理由で不正な場合
                 reject({
                   authenticated: false,
-                  status: 401,
-                  message: 'invalid token',
+                  payload: {
+                    status: 401,
+                    message: 'invalid token',
+                  },
                 });
               }
+              // TODO: エラー処理
+              reject({ authenticate: false, payload: err });
             }
             if (!user) {
               // username, passwordどちらかが不足している場合
               reject({
                 authenticated: false,
-                status: 400,
-                message: 'username and password required',
+                payload: {
+                  status: 400,
+                  message: 'username and password required',
+                },
               });
             }
-            resolve({ authenticated: true, user });
+            resolve({ authenticated: true, payload: user });
           }
         )(request, request.res, request.next);
       });
@@ -44,33 +50,52 @@ export class AuthService {
     return result;
   }
 
-  isLogin(accessToken: string): boolean {
-    // passport.authenticate(
-    //   'bearer',
-    //   { session: false },
-    //   async (err: any, user: any, _info: any) => {
-    //     if (err) {
-    //       if (err.status === 401) {
-    //         // トークンが失効や破損などの理由で不正な場合
-    //         res.set('www-authenticate', 'Bearer error="invalid_token"');
-    //         return res.status(err.status).json({ message: 'invalid token' });
-    //       }
-    //       return next(err);
-    //     }
-    //     if (!user) {
-    //       // bearerが不足している場合
-    //       res.set('www-authenticate', 'Bearer realm="token_required"');
-    //       return res.status(401).json({ message: 'token required' });
-    //     }
-    //     req.user = user;
-    //     next();
-    //   }
-    // )(req, res, next);
-
-    const redis = new IORedis(options);
-    redis.del(`token:access:${accessToken}`);
-    redis.quit();
-    return true;
+  async isLogin(request: express.Request): Promise<any> {
+    let result: any;
+    try {
+      result = await new Promise((resolve, reject) => {
+        passport.authenticate(
+          'bearer',
+          { session: false },
+          async (err: any, user: any, _info: any) => {
+            if (err) {
+              if (err.status === 401) {
+                // トークンが失効や破損などの理由で不正な場合
+                reject({
+                  authenticated: false,
+                  payload: {
+                    status: 401,
+                    header: {
+                      'www-authenticate': 'Bearer error="invalid_token"',
+                    },
+                    message: 'invalid token',
+                  },
+                });
+              }
+              // TODO: エラー処理
+              reject({ authenticate: false, payload: err });
+            }
+            if (!user) {
+              // bearerが不足している場合
+              reject({
+                authenticated: false,
+                payload: {
+                  status: 401,
+                  header: {
+                    'www-authenticate': 'Bearer realm="token_required"',
+                  },
+                  message: 'token required',
+                },
+              });
+            }
+            resolve({ authenticated: true, payload: user });
+          }
+        )(request, request.res, request.next);
+      });
+    } catch (err) {
+      return err;
+    }
+    return result;
   }
 
   logout(accessToken: string): boolean {

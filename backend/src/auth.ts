@@ -9,19 +9,22 @@ export const expressAuthentication = async (
   const auth = new AuthService();
   switch (securityName) {
     case 'login':
-      const result: any = await auth.login(request);
-      if (result.authenticated) {
-        return result.user;
+      // ログイン処理
+      const loginResult: any = await auth.login(request);
+      if (loginResult.authenticated) {
+        return loginResult.payload;
       }
       // ログインエラー
-      throw result;
+      throw loginResult.payload;
 
     case 'auth':
-      return Promise.resolve({
-        id: 3000,
-        name: securityName,
-        accessToken: 'sample',
-      });
+      // ログインチェック処理
+      const checkResult: any = await auth.isLogin(request);
+      if (checkResult.authenticated) {
+        return checkResult.payload;
+      }
+      // 未ログイン
+      throw checkResult.payload;
   }
   throw Promise.reject({});
 };

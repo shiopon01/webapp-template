@@ -1,0 +1,25 @@
+{
+  "swagger": {
+    "specVersion": 3,
+    "name": "webapp-template backend",
+    "description": "サンプルAPI",
+    "version": "0.0.1",
+    "license": "MIT",
+    "yaml": false,
+    "basePath": "/",
+    "entryFile": "./src/app.ts",
+    "outputDirectory": "./docs",
+    "controllerPathGlobs": ["./src/controllers/*.controller.ts"],
+    "host": "localhost:3001",
+    "schemes": ["http"],
+    "noImplicitAdditionalProperties": "silently-remove-extras"
+  },
+  "routes": {
+    "basePath": "/",
+    "entryFile": "./src/app.ts",
+    "routesDir": "./src",
+    "middleware": "express",
+    "authenticationModule": "./src/auth.ts",
+    "iocModule": "./src/ioc"
+  }
+}

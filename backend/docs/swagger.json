@@ -1,0 +1,274 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"LoginResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"user": {
+						"additionalProperties": true,
+						"type": "object"
+					}
+				},
+				"required": [
+					"message",
+					"user"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Login": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LogoutResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"User": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "webapp-template backend",
+		"version": "0.0.1",
+		"description": "サンプルAPI",
+		"license": {
+			"name": "MIT"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LoginResponse"
+								}
+							}
+						},
+						"description": "Ok"
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"examples": {
+									"example": {
+										"value": {
+											"message": "username and password required"
+										}
+									}
+								}
+							}
+						},
+						"description": "パラメーター不足"
+					},
+					"401": {
+						"content": {
+							"application/json": {
+								"examples": {
+									"example": {
+										"value": {
+											"message": "invalid token"
+										}
+									}
+								}
+							}
+						},
+						"description": "認証エラー"
+					}
+				},
+				"description": "ユーザー名とパスワードを渡してログインを行います。",
+				"summary": "ログイン機能",
+				"tags": [
+					"auth"
+				],
+				"security": [
+					{
+						"local": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Login"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/logout": {
+			"get": {
+				"operationId": "Logout",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LogoutResponse"
+								}
+							}
+						},
+						"description": "Ok"
+					},
+					"401": {
+						"content": {
+							"application/json": {
+								"examples": {
+									"example": {
+										"value": {
+											"message": "token required"
+										}
+									}
+								}
+							}
+						},
+						"description": "認証エラー"
+					}
+				},
+				"description": "ログアウトを行います。",
+				"summary": "ログアウト機能",
+				"tags": [
+					"auth"
+				],
+				"security": [
+					{
+						"bearer": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/users/{id}": {
+			"get": {
+				"operationId": "GetUser",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"$ref": "#/components/schemas/User"
+										},
+										{
+											"properties": {},
+											"type": "object"
+										}
+									]
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"description": "IDからユーザー情報を取得",
+				"summary": "ユーザー情報取得",
+				"security": [
+					{
+						"bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/users": {
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						},
+						"description": "Ok"
+					}
+				},
+				"description": "新しいユーザーを作成",
+				"summary": "新規ユーザー作成",
+				"security": [
+					{
+						"bearer": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3001/"
+		}
+	]
+}

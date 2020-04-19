@@ -1,10 +1,12 @@
-import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
-import { Strategy as BearerStrategy } from 'passport-http-bearer';
-import IORedis from 'ioredis';
-import crypto from 'crypto';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
+import IORedis from 'ioredis';
+import passport from 'passport';
+import { Strategy as BearerStrategy } from 'passport-http-bearer';
+import { Strategy as LocalStrategy } from 'passport-local';
+
 import options from './redis';
+import { UserService } from './services/user.service';
 import genToken from './utils/genToken';
 
 const createError = require('http-errors');
@@ -59,21 +61,31 @@ passport.use(
       'token'
     );
 
-    if (
-      crypto.timingSafeEqual(
-        Buffer.from(token),
-        Buffer.from(sessionToken || '')
-      )
-    ) {
-      const userId = await redis.hget(`token:access:${accessToken20}`, 'user');
-      redis.quit();
+    try {
+      if (
+        token.length === (sessionToken !== null && sessionToken.length) &&
+        crypto.timingSafeEqual(
+          Buffer.from(token),
+          Buffer.from(sessionToken || '')
+        )
+      ) {
+        const userId = await redis.hget(
+          `token:access:${accessToken20}`,
+          'user'
+        );
 
-      // TODO: ユーザー情報取得
+        // TODO: ユーザー情報取得 mock
+        const userService = new UserService();
+        const user = userService.find(Number(userId) || 0);
 
-      done(null, { id: userId, accessToken20 });
-    } else {
+        done(null, user);
+      } else {
+        done(createError(401, 'login failed'));
+      }
+    } catch (err) {
+      done(err);
+    } finally {
       redis.quit();
-      done(createError(401, 'login failed'));
     }
   })
 );

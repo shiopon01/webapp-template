@@ -67,18 +67,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"RequestBody": {
-				"properties": {
-					"name": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"name"
-				],
-				"type": "object",
-				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -143,7 +131,7 @@
 				],
 				"security": [
 					{
-						"login": []
+						"local": []
 					}
 				],
 				"parameters": [],
@@ -194,7 +182,7 @@
 				],
 				"security": [
 					{
-						"auth": []
+						"bearer": []
 					}
 				],
 				"parameters": []
@@ -227,7 +215,7 @@
 				"summary": "ユーザー情報取得",
 				"security": [
 					{
-						"auth": []
+						"bearer": []
 					}
 				],
 				"parameters": [
@@ -243,7 +231,7 @@
 				]
 			}
 		},
-		"/users/create": {
+		"/users": {
 			"post": {
 				"operationId": "CreateUser",
 				"responses": {
@@ -262,7 +250,7 @@
 				"summary": "新規ユーザー作成",
 				"security": [
 					{
-						"auth": []
+						"bearer": []
 					}
 				],
 				"parameters": [],
@@ -270,7 +258,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/RequestBody"
+								"type": "object"
 							}
 						}
 					}

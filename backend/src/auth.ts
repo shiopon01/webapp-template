@@ -8,7 +8,7 @@ export const expressAuthentication = async (
 ): Promise<any> => {
   const auth = new AuthService();
   switch (securityName) {
-    case 'login':
+    case 'local':
       // ログイン処理
       const loginResult: any = await auth.login(request);
       if (loginResult.authenticated) {
@@ -17,7 +17,7 @@ export const expressAuthentication = async (
       // ログインエラー
       throw loginResult.payload;
 
-    case 'auth':
+    case 'bearer':
       // ログインチェック処理
       const checkResult: any = await auth.isLogin(request);
       if (checkResult.authenticated) {

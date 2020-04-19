@@ -48,14 +48,6 @@ const models: TsoaRoute.Models = {
     "additionalProperties": false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-  "RequestBody": {
-    "dataType": "refObject",
-    "properties": {
-      "name": { "dataType": "string", "required": true },
-    },
-    "additionalProperties": false,
-  },
-  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
 const validationService = new ValidationService(models);
 
@@ -67,7 +59,7 @@ export function RegisterRoutes(app: express.Express) {
   //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
   // ###########################################################################################################
   app.post('/login',
-    authenticateMiddleware([{ "login": [] }]),
+    authenticateMiddleware([{ "local": [] }]),
     function(request: any, response: any, next: any) {
       const args = {
         _requestBody: { "in": "body", "name": "_requestBody", "required": true, "ref": "Login" },
@@ -94,7 +86,7 @@ export function RegisterRoutes(app: express.Express) {
     });
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   app.get('/logout',
-    authenticateMiddleware([{ "auth": [] }]),
+    authenticateMiddleware([{ "bearer": [] }]),
     function(request: any, response: any, next: any) {
       const args = {
         request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
@@ -120,11 +112,11 @@ export function RegisterRoutes(app: express.Express) {
     });
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   app.get('/users/:id',
-    authenticateMiddleware([{ "auth": [] }]),
+    authenticateMiddleware([{ "bearer": [] }]),
     function(request: any, response: any, next: any) {
       const args = {
         id: { "in": "path", "name": "id", "required": true, "dataType": "double" },
-        request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+        _request: { "in": "request", "name": "_request", "required": true, "dataType": "object" },
       };
 
       // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -146,11 +138,11 @@ export function RegisterRoutes(app: express.Express) {
       promiseHandler(controller, promise, response, next);
     });
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-  app.post('/users/create',
-    authenticateMiddleware([{ "auth": [] }]),
+  app.post('/users',
+    authenticateMiddleware([{ "bearer": [] }]),
     function(request: any, response: any, next: any) {
       const args = {
-        requestBody: { "in": "body", "name": "requestBody", "required": true, "ref": "RequestBody" },
+        _requestBody: { "in": "body", "name": "_requestBody", "required": true, "dataType": "any" },
       };
 
       // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

@@ -33,7 +33,7 @@ export class AuthController extends Controller {
    * @memberof AuthController
    */
   @Post('login')
-  @Security('login')
+  @Security('local')
   @Response('400', 'パラメーター不足', {
     message: 'username and password required',
   })
@@ -57,7 +57,7 @@ export class AuthController extends Controller {
    * @memberof AuthController
    */
   @Get('logout')
-  @Security('auth')
+  @Security('bearer')
   @Response('401', '認証エラー', { message: 'token required' })
   public logout(@Request() request: UserRequest): LogoutResponse {
     try {

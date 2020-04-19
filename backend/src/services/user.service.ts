@@ -1,26 +1,23 @@
-import { User, RequestBody } from '../interfaces/user';
+import { ProvideSingleton } from '../ioc';
+import { User } from '../interfaces/user';
 
-// ※Databaseとかに下記のようなデータ格納されているとする
-const users: User[] = [
-  {
-    id: 1,
-    name: 'Tanka',
-  },
-  {
-    id: 2,
-    name: 'Suzuki',
-  },
-];
+@ProvideSingleton(UserService)
+export class UserService {
+  constructor() {}
 
-// IDでユーザ情報を取得する関数
-export const getUser = (id: number): User | {} => {
-  return users.find((user) => user.id === id) || {};
-};
+  async find(id: number): Promise<User | {}> {
+    // FIXME: mock
+    return {
+      id,
+      username: 'kenny',
+    };
+  }
 
-// リクエストされた情報からユーザ情報を登録する関数
-export const createUser = (body: RequestBody): void => {
-  users.push({
-    id: users.length + 1,
-    name: body.name,
-  });
-};
+  async create(): Promise<User | {}> {
+    // FIXME: mock
+    return {
+      id: 100,
+      username: 'bob',
+    };
+  }
+}

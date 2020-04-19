@@ -1,3 +1,12 @@
+/**
+ * Expressに登録するためのログイン・ログインチェック処理を記述
+ *
+ * Expressに登録した時点は実行されず、ユーザーからのログイン・ログインチェック要求があった際に
+ * /src/services/auth.service 内の passport.authenticate メソッドが実行され、以下の処理も実行される。
+ * - passport.authenticate('local', ... → LocalStrategy
+ * - passport.authenticate('bearer', ... → BearerStrategy
+ */
+
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import IORedis from 'ioredis';

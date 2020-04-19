@@ -13,7 +13,7 @@
     "build": "npm run lint && tsc",
     "test": "jest",
     "lint": "tslint -c tslint.json '{src,test}/**/*.ts'",
-    "gen": "ts-node generate.ts"
+    "gen": "tsoa swagger -c ./tsoa.json && tsoa routes -c ./tsoa.json"
   },
   "dependencies": {
     "bcrypt": "^4.0.1",

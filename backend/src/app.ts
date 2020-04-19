@@ -6,7 +6,7 @@ import swaggerUI from 'swagger-ui-express';
 
 import swaggerDocument from '../docs/swagger.json';
 import { RegisterRoutes } from './routes';
-import { passportInitialize } from './utils/passport';
+import { passportInitialize } from './passport';
 
 export const app: express.Express = express();
 
@@ -47,7 +47,7 @@ app.use((err: any, req: any, res: any, _next: any) => {
  */
 if (process.env.NODE_ENV !== 'test') {
   const port = process.env.PORT ? process.env.PORT : 3001;
-  app.listen(port, () => {
+  app.listen(port, async () => {
     console.log(`env : ${process.env.NODE_ENV}`);
     console.log(`port: ${port}`);
   });

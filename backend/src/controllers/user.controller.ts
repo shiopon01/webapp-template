@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Body, Controller, Get, Post, Request, Route, Security } from 'tsoa';
 
-import { RequestBody, User } from '../domains/user';
+import { RequestBody, User } from '../interfaces/user';
 import { inject, ProvideSingleton } from '../ioc';
 import { TestService } from '../services/test.service';
 import { createUser, getUser } from '../services/user.service';
@@ -13,9 +13,17 @@ export class UsersController extends Controller {
     super();
   }
 
-  // IDをPATHに含めたGETなAPIを定義
+  /**
+   * IDからユーザー情報を取得
+   *
+   * @summary ユーザー情報取得
+   * @param {number} id
+   * @param {express.Request} request
+   * @returns {(User | {})}
+   * @memberof UsersController
+   */
   @Get('/{id}')
-  @Security('login')
+  @Security('auth')
   public getUser(id: number, @Request() request: express.Request): User | {} {
     console.log(request.user);
 
@@ -24,8 +32,16 @@ export class UsersController extends Controller {
     return { user: getUser(id), request };
   }
 
-  // POSTなAPI
+  /**
+   * 新しいユーザーを作成
+   *
+   * @summary 新規ユーザー作成
+   * @param {RequestBody} requestBody
+   * @returns {string}
+   * @memberof UsersController
+   */
   @Post('/create')
+  @Security('auth')
   public createUser(@Body() requestBody: RequestBody): string {
     createUser(requestBody);
     this.test.sample();

@@ -4,8 +4,8 @@ import { Strategy as BearerStrategy } from 'passport-http-bearer';
 import IORedis from 'ioredis';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
-import options from '../redis';
-import genToken from './genToken';
+import options from './redis';
+import genToken from './utils/genToken';
 
 const createError = require('http-errors');
 
@@ -23,6 +23,7 @@ passport.use(
       id: 1,
       username: 'admin',
       password: bcrypt.hashSync('password', 10),
+      token: '',
     };
 
     if (
@@ -40,6 +41,7 @@ passport.use(
         .exec();
       redis.quit();
 
+      user.token = accessToken;
       done(null, user);
     } else {
       done(createError(401, 'login failed'));

@@ -1,10 +1,12 @@
 import * as express from 'express';
+import { UserRequest } from 'src/interfaces';
 import {
   Body,
   Controller,
   Get,
   Post,
   Request,
+  Response,
   Route,
   Security,
   Tags,
@@ -26,20 +28,22 @@ export class AuthController extends Controller {
    *
    * @summary ログイン機能
    * @param {Login} _requestBody
-   * @param {express.Request} request
+   * @param {Express.Request} request
    * @returns {LoginResponse}
    * @memberof AuthController
    */
   @Post('login')
   @Security('login')
-  // @Response<ErrorResponseModel>('400', 'Bad Request', {
-  //   status: 400,
-  //   message: 'Bad Request',
-  // })
+  @Response('400', 'パラメーター不足', {
+    message: 'username and password required',
+  })
+  @Response('401', '認証エラー', {
+    message: 'invalid token',
+  })
   public login(
     @Body() _requestBody: Login,
     @Request() request: express.Request
-  ): any {
+  ): LoginResponse {
     // ミドルウェアでログイン処理までしているので必ずsuccess
     return { message: 'success', user: request.user };
   }
@@ -48,12 +52,13 @@ export class AuthController extends Controller {
    * ログアウトを行います。
    *
    * @summary ログアウト機能
-   * @param {express.Request} request
+   * @param {Express.Request} request
    * @returns {void}
    * @memberof AuthController
    */
   @Get('logout')
   @Security('auth')
+  @Response('401', '認証エラー', { message: 'token required' })
   public logout(@Request() request: UserRequest): LogoutResponse {
     try {
       console.log(request.user);
@@ -61,30 +66,23 @@ export class AuthController extends Controller {
     } catch (err) {
       console.log(err);
     }
-
     return { message: 'success' };
   }
 }
 
-export interface UserRequest extends express.Request {
-  user: any;
-}
+// NOTE: tsoaで外部からインポートしたinterfaceを使用できない
+// https://tsoa-docs.netlify.app/external-interfaces.html
 
-export interface Login {
+interface Login {
   username: string;
   password: string;
 }
 
-export interface LoginResponse {
+interface LoginResponse {
   message: string;
   user: any;
 }
 
-export interface LogoutResponse {
-  message: string;
-}
-
-export interface ErrorResponseModel {
-  status: number;
+interface LogoutResponse {
   message: string;
 }

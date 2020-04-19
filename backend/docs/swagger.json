@@ -6,6 +6,23 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"LoginResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"user": {
+						"additionalProperties": true,
+						"type": "object"
+					}
+				},
+				"required": [
+					"message",
+					"user"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Login": {
 				"properties": {
 					"username": {
@@ -67,7 +84,12 @@
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": ""
+		"title": "webapp-template backend",
+		"version": "0.0.1",
+		"description": "サンプルAPI",
+		"license": {
+			"name": "MIT"
+		}
 	},
 	"openapi": "3.0.0",
 	"paths": {
@@ -79,12 +101,39 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"additionalProperties": true,
-									"type": "object"
+									"$ref": "#/components/schemas/LoginResponse"
 								}
 							}
 						},
 						"description": "Ok"
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"examples": {
+									"example": {
+										"value": {
+											"message": "username and password required"
+										}
+									}
+								}
+							}
+						},
+						"description": "パラメーター不足"
+					},
+					"401": {
+						"content": {
+							"application/json": {
+								"examples": {
+									"example": {
+										"value": {
+											"message": "invalid token"
+										}
+									}
+								}
+							}
+						},
+						"description": "認証エラー"
 					}
 				},
 				"description": "ユーザー名とパスワードを渡してログインを行います。",
@@ -122,6 +171,20 @@
 							}
 						},
 						"description": "Ok"
+					},
+					"401": {
+						"content": {
+							"application/json": {
+								"examples": {
+									"example": {
+										"value": {
+											"message": "token required"
+										}
+									}
+								}
+							}
+						},
+						"description": "認証エラー"
 					}
 				},
 				"description": "ログアウトを行います。",
@@ -160,9 +223,11 @@
 						"description": "Ok"
 					}
 				},
+				"description": "IDからユーザー情報を取得",
+				"summary": "ユーザー情報取得",
 				"security": [
 					{
-						"login": []
+						"auth": []
 					}
 				],
 				"parameters": [
@@ -193,7 +258,13 @@
 						"description": "Ok"
 					}
 				},
-				"security": [],
+				"description": "新しいユーザーを作成",
+				"summary": "新規ユーザー作成",
+				"security": [
+					{
+						"auth": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"content": {

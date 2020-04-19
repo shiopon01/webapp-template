@@ -1,4 +1,4 @@
-import { User, RequestBody } from '../domains/user';
+import { User, RequestBody } from '../interfaces/user';
 
 // ※Databaseとかに下記のようなデータ格納されているとする
 const users: User[] = [
